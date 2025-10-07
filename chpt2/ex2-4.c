@@ -14,22 +14,20 @@ typedef struct {
 
 void squeeze(char *s1, char *s2) {
 
-    char c1, c2;
+    char c1, c2, cx;
     int i,j,k;
-    i = 0;
-    j = 0;
 
-    while( (c1 = s1[i]) != '\0' ) {
-        while( (c2 = s2[j++]) != '\0') {
-            if(c1 == c2){
-                while( 
-                    (s1[k] = s1[++k])
-                    != '\0'
-                );
-                break;
+    for(i = 0; s1[i] != '\0'; i++) {
+        c1 = s1[i];
+        for(j = 0; s2[j] != '\0'; j++) {
+            if( s1[i] == s2[j] ) {
+                for(k=i; s1[k]!='\0'; k++){
+                    s1[k] = s1[k+1];
+                }
+                s1[k-1] = '\0';
+                i--;
             }
         }
-        i++;
     }
 
 }
