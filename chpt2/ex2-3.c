@@ -11,11 +11,12 @@ int htoi( char *s ) {
     int hex_start_index = 0;
     int value = 0;
     int place_value = 1;
+    int ndigits = 0;
 
     int digits[256];
 
-    int i, is_digit, digit, is_first_digit_found;
-    int num_digits = 0;
+    int i, is_digit, digit;
+    int is_first_digit_found = 0;
 
     for(i = 0; (c = s[i]) != '\0'; i++) {
         if( i == 0 && c == '0' ) {
@@ -34,26 +35,21 @@ int htoi( char *s ) {
 
         if( is_first_digit_found ) {
             digits[i - hex_start_index] = digit;
-            num_digits++;
+            ndigits++;
         } else {
             if( c != '0' ) {
                 hex_start_index = i;
                 is_first_digit_found = 1;
                 digits[0] = digit;
-                num_digits++;
+                ndigits++;
             }
             continue;
         }
     }
 
-    for(i = 0; i < num_digits; i++) {
-        value = value + place_value * digits[num_digits - i - 1];
+    for(i = ndigits - 1; i > -1; i--) {
+        value = value + place_value * digits[i];
         place_value = place_value * 16;
-    }
-
-    if(strcmp(s, "0x0") == 0) {
-        printf("%d\n", num_digits);
-        printf("%d\n", digit);
     }
 
     return value;
@@ -109,7 +105,7 @@ int main () {
     if( num_mismatch_results ) {
         printf( "Number of non-matching results: %d\n", num_mismatch_results );
     } else {
-        printf( "All results matching!" );
+        printf( "All results matching!\n" );
     }
 
 
